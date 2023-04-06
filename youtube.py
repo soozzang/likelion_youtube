@@ -3,11 +3,16 @@ import os
 from googleapiclient.discovery import build
 
 api_key = os.environ.get('GOOGLE_API_KEY')
-video_id = str(input("동영상 ID를 입력하세요: "))
  
 comments = list()
 api_obj = build('youtube', 'v3', developerKey=api_key)
-response = api_obj.commentThreads().list(part='snippet,replies', videoId=video_id, maxResults=100).execute()
+while True:
+    try:
+        video_id = input("동영상 ID를 입력하세요: ")
+        response = api_obj.commentThreads().list(part='snippet,replies', videoId=video_id, maxResults=100).execute()
+        break
+    except:
+        print("존재하지 않는 동영상입니다. 다시 입력해주세요.")
 
 def video_info():
     response = api_obj.videos().list(
