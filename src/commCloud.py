@@ -20,7 +20,7 @@ count = Counter(nouns)          # 명사의 빈도 수 계산
 tags = count.most_common(50)    # 빈도 수가 높은 50개의 명사를 리스트에 저장
 
 # 단어구름 생성
-wc = WordCloud(width=800, height=600, background_color='white', font_path='NanumSquareRoundB.ttf')   # 사용할 폰트 경로 기입
+wc = WordCloud(width=800, height=600, background_color='white', font_path='font/NanumSquareRoundB.ttf')   # 사용할 폰트 경로 기입
 cloud = wc.generate_from_frequencies(dict(tags))
 
 plt.figure(figsize=(10, 8))     # 출력할 크기
