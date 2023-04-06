@@ -2,7 +2,7 @@ import konlpy
 from konlpy.tag import Okt
 from collections import Counter
 
-from likelion_youtube.asd import comments
+from asd import comments
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 

@@ -3,11 +3,11 @@ import os
 from googleapiclient.discovery import build
 
 api_key = os.environ.get('GOOGLE_API_KEY')
-video_id = 'hUZuOYO_BAA'
+video_id = str(input("동영상 ID를 입력하세요: "))
  
 comments = list()
 api_obj = build('youtube', 'v3', developerKey=api_key)
-response = api_obj.commentThreads().list(part='snippet,replies', videoId=video_id, maxResults=10).execute()
+response = api_obj.commentThreads().list(part='snippet,replies', videoId=video_id, maxResults=100).execute()
 
 def video_info():
     response = api_obj.videos().list(
