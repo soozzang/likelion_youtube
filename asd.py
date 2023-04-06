@@ -1,8 +1,8 @@
 import pandas
+import os
 from googleapiclient.discovery import build
- 
- 
-api_key = 'AIzaSyA0-ezFe8zdacnIxPXJ6FTWcXS0Y6OLYPs'
+
+api_key = os.environ.get('GOOGLE_API_KEY')
 video_id = 'hUZuOYO_BAA'
  
 comments = list()
