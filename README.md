@@ -1,8 +1,8 @@
-## 🦾 2팀| 한수현 김세은 김승환 한은선
+# 🦾 2팀 | 한수현 김세은 김승환 한은선
 
 ## ✨ 프로젝트 설명
 
-### `주제| KONLPY와 WordCloud를 이용한 실시간 Youtube 댓글 분석기
+### 주제 | KONLPY와 WordCloud를 이용한 실시간 Youtube 댓글 분석기
 
 - Youtube Data API 을 이용하여 아래 조건의 댓글을 분석하는 프로그램입니다.
         
