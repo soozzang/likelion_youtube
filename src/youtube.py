@@ -4,10 +4,8 @@ from googleapiclient.discovery import build
 from bs4 import BeautifulSoup
 
 api_key = os.environ.get('GOOGLE_API_KEY') #코드상에서 키를 숨기기위해 환경변수를 이용하여 GOOGLE_API_KEY라는 변수안에 키를 담아둔 후 호출.
-<<<<<<< HEAD
 video_id = str(input("동영상 ID를 입력하세요: ")) 
-=======
->>>>>>> 58767a0790bea09d5335fae10067c9dbeec60843
+
  
 comments = list()
 api_obj = build('youtube', 'v3', developerKey=api_key)
