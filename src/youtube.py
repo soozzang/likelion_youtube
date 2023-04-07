@@ -3,7 +3,7 @@ import os
 from googleapiclient.discovery import build
 
 api_key = os.environ.get('GOOGLE_API_KEY') #코드상에서 키를 숨기기위해 환경변수를 이용하여 GOOGLE_API_KEY라는 변수안에 키를 담아둔 후 호출.
-video_id = str(input("동영상 ID를 입력하세요: "))
+video_id = str(input("동영상 ID를 입력하세요: ")) 
  
 comments = list()
 api_obj = build('youtube', 'v3', developerKey=api_key)
