@@ -13,12 +13,12 @@ import matplotlib.pyplot as plt
 class Cloud(YoutubeAPI):
     def __init__(self):
         super().__init__()
-        super().get_comment_list()
+        super()._get_comment_list()
 
     def execute(self):
-        self.morpheme_analysis()
+        self.__morpheme_analysis()
 
-    def morpheme_analysis(self):
+    def __morpheme_analysis(self):
         okt = Okt()
         #형태소 분석을 해주는 okt 객체를 생성
         nouns = list()                      # 명사 추출 후 담을 빈 리스트 생성
@@ -31,9 +31,9 @@ class Cloud(YoutubeAPI):
         count = Counter(nouns)              # 명사의 빈도 수 계산
         tags = count.most_common(50) 
        # 빈도 수가 높은 50개의 명사를 리스트에 저장
-        self.generate_wordCloud(tags)
+        self.__generate_wordCloud(tags)
 
-    def generate_wordCloud(self,tags):
+    def __generate_wordCloud(self,tags):
         # 단어구름 생성
         wc = WordCloud(width=800, height=600, background_color='white', font_path='font/NanumSquareRoundB.ttf')   # 사용할 폰트 경로 기입
         cloud = wc.generate_from_frequencies(dict(tags))#단어구름 생성

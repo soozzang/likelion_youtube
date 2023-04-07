@@ -5,19 +5,19 @@ from googleapiclient.discovery import build
     
 class YoutubeAPI:
     def __init__(self):
-        self.api_key = os.environ.get('GOOGLE_API_KEY') #코드상에서 키를 숨기기위해 환경변수를 이용하여 GOOGLE_API_KEY라는 변수안에 키를 담아둔 후 호출.
-        self.api_obj = build('youtube', 'v3', developerKey=self.api_key)
-        self.video_id=""
+        self.__api_key = os.environ.get('GOOGLE_API_KEY') #코드상에서 키를 숨기기위해 환경변수를 이용하여 GOOGLE_API_KEY라는 변수안에 키를 담아둔 후 호출.
+        self.__api_obj = build('youtube', 'v3', developerKey=self.__api_key)
+        self.__video_id=""
         self.comments = list()
 
         #build 함수를 통해 Google API 클라이언트에서 지원하는 서비스를 사용할 수 있는 API 서비스 객체를 생성
         #build 함수를 실행시키기 위해 API 서비스의 이름, API의 버전, 필요한 인증정보 제공
 
-    def get_comment_list(self):
+    def _get_comment_list(self):
         while True:
             try:
                 self.video_id = input("동영상 ID를 입력하세요: ")
-                responseComment = self.api_obj.commentThreads().list(part='snippet', videoId=self.video_id, maxResults=100).execute()
+                responseComment = self.__api_obj.commentThreads().list(part='snippet', videoId=self.video_id, maxResults=100).execute()
                 #commentThreads : 특정 동영상에 연결된 댓글 스레드(thread) 목록을 검색하는 데 사용
                 #위 코드에서 part 매개변수는 API 응답에 포함되어야 할 리소스의 일부를 지정합니다. 
                 #여기서는 댓글 스레드와 관련된 정보를 모두 포함하도록 snippet으로 설정하였습니다. 
@@ -27,28 +27,28 @@ class YoutubeAPI:
                 break
             except:
                 print("존재하지 않는 동영상입니다. 다시 입력해주세요.") 
-        self.request_api(responseComment) 
+        self.__request_api(responseComment) 
 
-    def request_api(self,responseComment):
-        response = self.api_obj.videos().list(
+    def __request_api(self,responseComment):
+        response = self.__api_obj.videos().list(
         part='snippet,statistics',
         id=self.video_id
         ).execute() # 서버로 api 요청//video info
         #statistics : 동영상의 통계 정보 요청시 사용, 영상의 조회수, 좋아요 수, 싫어요 수 등의 정보 포함
         #contentDetails : 동영상의 콘텐츠 상세 정보를 요청시 사용, 동영상의 길이, 해상도, 썸네일 URL 등의 정보 포함
         #id : 동영상의 ID를 요청할 때 사용
-        self.video_info(response)
-        self.printComment(responseComment)
+        self.__video_info(response)
+        self.__print_comment(responseComment)
         
     
-    def video_info(self,response): # video의 정보들 뽑아내는 함수.
+    def __video_info(self,response): # video의 정보들 뽑아내는 함수.
         for item in response['items']: #for 루프를 사용하여 딕셔너리 형태로 저장된 정보에 접근
             print("제목:", item['snippet']['title']+"\n")
             print("조회수:", item['statistics']['viewCount']+"\n")
             print("설명:", item['snippet']['description']+"\n")
             print("채널명:", item['snippet']['channelTitle']+"\n")
 
-    def printComment(self,responseComment):
+    def __print_comment(self,responseComment):
         while responseComment:  # 댓글이 다음페이지에도 있다면 계속 돌리고 , 이제 없으면 break
             for item in responseComment['items']: # items(댓글데이터)를 받아서 comments list에 추가
                 comment = item['snippet']['topLevelComment']['snippet']
@@ -57,7 +57,7 @@ class YoutubeAPI:
                 #textDisplay : 댓글 작성자가 본문에 HTML 태그를 사용한 경우, textDisplay 속성에는 HTML 태그가 포함되지 않은 일반 텍스트 형식으로z
         
             if 'nextPageToken' in responseComment: #댓글이 다음페이지에 있다면 넘겨서 댓글을 더 가져옴.
-                responseComment = self.api_obj.commentThreads().list(part='snippet', videoId=self.video_id, pageToken=responseComment['nextPageToken'], maxResults=100).execute()
+                responseComment = self.__api_obj.commentThreads().list(part='snippet', videoId=self.video_id, pageToken=responseComment['nextPageToken'], maxResults=100).execute()
                 #기본적으로 API는 한 번에 최대 100개의 댓글 스레드를 반환한다. 
                 # 만약 전체 댓글 스레드가 100개 이상이라면, PageToken매개변수를 사용하여 다음 페이지의 결과를 요청해야함
                 #nextPageToken은 이전 페이지에서 반환된 마지막 댓글 스레드의 토큰입니다. 
