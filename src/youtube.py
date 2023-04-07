@@ -5,6 +5,8 @@ from bs4 import BeautifulSoup
 
 api_key = os.environ.get('GOOGLE_API_KEY') #코드상에서 키를 숨기기위해 환경변수를 이용하여 GOOGLE_API_KEY라는 변수안에 키를 담아둔 후 호출.
 video_id = str(input("동영상 ID를 입력하세요: ")) 
+
+
  
 comments = list()
 api_obj = build('youtube', 'v3', developerKey=api_key)
@@ -49,7 +51,7 @@ while response:  # 댓글이 다음페이지에도 있다면 계속 돌리고 , 
         #textDisplay : 댓글 작성자가 본문에 HTML 태그를 사용한 경우, 
         # textDisplay 속성에는 HTML 태그가 포함되지 않은 일반 텍스트 형식으로 반환된다.
         #만약 <p>This video is amazing!</p> 이런 태그가 있다면 p태그를 적용시킨 댓글만을 반환한다.
-        #하지만 일부 댓글에는 HTML 태그가 포함될 수 있고, 이를 제거하기 위해서는 
+        #하지만 일부 댓글에는 HTML 태그가 포함될 수 있고, 이를 제거하기 위해서는 BeautifulSoup의 lxml을 사용하여 제거
     if 'nextPageToken' in response: #댓글이 다음페이지에 있다면 넘겨서 댓글을 더 가져옴.
         response = api_obj.commentThreads().list(part='snippet', videoId=video_id, pageToken=response['nextPageToken'], maxResults=100).execute()
         #기본적으로 API는 한 번에 최대 100개의 댓글 스레드를 반환한다. 
